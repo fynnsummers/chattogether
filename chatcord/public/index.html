@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Fynn Summers">
+    <meta name="description" content="Chat Together - Moderne Chat-Plattform für anonyme Kommunikation. Jetzt kostenlos chatten!">
+    <link rel="icon" href="imgs/favicon.ico">
+    <link rel="apple-touch-icon" href="imgs/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Chat Together - Moderne Chat-Plattform</title>
+</head>
+<style>
+            body {
+            overflow-y: auto !important;
+            min-height: 100vh;
+        }
+        
+        .landing-container {
+            min-height: 100vh;
+            background: var(--bg-dark);
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: visible;
+        }
+
+        .landing-container::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-size: 500px 500px;
+            background-image: url("https://www.transparenttextures.com/patterns/cartographer.png");
+            z-index: -10;
+            animation: floatingBackground 80s infinite;
+        }
+
+        .hero-section {
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-logo {
+            width: 200px;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primarybtn), #8b9dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(102, 122, 255, 0.3);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 60px;
+        }
+
+        .cta-primary {
+            background: linear-gradient(135deg, var(--primarybtn), var(--secondarybtn));
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 122, 255, 0.3);
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 122, 255, 0.4);
+        }
+
+        .cta-secondary {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--glass-border);
+            color: var(--text-light);
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .cta-secondary:hover {
+            background: var(--secondarybtn);
+            border-color: var(--secondarybtn);
+            transform: translateY(-3px);
+        }
+
+        .features-section {
+            padding: 80px 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--bg-light);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 122, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border-color: var(--primarybtn);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primarybtn);
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(102, 122, 255, 0.5);
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+
+        .feature-description {
+            color: var(--text-light);
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .stats-section {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .live-stats {
+            background: linear-gradient(135deg, var(--glass-bg), rgba(102, 122, 255, 0.1));
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 50px 40px;
+            margin: 50px auto;
+            max-width: 800px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .live-stats::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 122, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .live-stats h3 {
+            color: var(--primarybtn);
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            text-shadow: 0 0 30px rgba(102, 122, 255, 0.6);
+            position: relative;
+            z-index: 1;
+        }
+
+        .live-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .live-stat-item {
+            background: linear-gradient(135deg, var(--bg-light), rgba(102, 122, 255, 0.05));
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 25px 20px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .live-stat-item::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 122, 255, 0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .live-stat-item:hover::before {
+            left: 100%;
+        }
+
+        .live-stat-item:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--primarybtn);
+            box-shadow: 0 15px 35px rgba(102, 122, 255, 0.2);
+        }
+
+        .live-stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primarybtn), #8b9dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            text-shadow: 0 0 30px rgba(102, 122, 255, 0.5);
+        }
+
+        .live-stat-label {
+            color: var(--text-light);
+            opacity: 0.9;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .update-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(102, 122, 255, 0.2);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 8px 15px;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .update-indicator.updating {
+            background: rgba(102, 122, 255, 0.4);
+            border-color: var(--primarybtn);
+        }
+
+        .update-indicator .pulse {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: #00ff00;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        .online-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #00ff00;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .details-section {
+            padding: 80px 20px;
+            background: var(--bg-light);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .details-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .detail-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .detail-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primarybtn);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .detail-card h4 {
+            color: var(--primarybtn);
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .detail-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .detail-card li {
+            color: var(--text-light);
+            opacity: 0.8;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .detail-card li::before {
+            content: "✓";
+            color: var(--primarybtn);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .room-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .room-item {
+            background: var(--bg-dark);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .room-item:hover {
+            border-color: var(--primarybtn);
+            transform: scale(1.02);
+        }
+
+        .room-name {
+            color: var(--primarybtn);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .room-description {
+            color: var(--text-light);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .online-users-section {
+            padding: 60px 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .online-users-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .online-users-title {
+            text-align: center;
+            color: var(--primarybtn);
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(102, 122, 255, 0.5);
+        }
+
+        .room-users-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .room-users-card {
+            background: var(--bg-light);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .room-users-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primarybtn);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .room-users-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .room-name-header {
+            color: var(--primarybtn);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .room-user-count {
+            background: var(--primarybtn);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .room-users-list {
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .room-user-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 0;
+            color: var(--text-light);
+            opacity: 0.8;
+        }
+
+        .room-user-item::before {
+            content: "●";
+            color: #00ff00;
+            font-size: 0.8rem;
+        }
+
+        .stat-item {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 30px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: scale(1.05);
+            border-color: var(--primarybtn);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--primarybtn);
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(102, 122, 255, 0.5);
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            opacity: 0.8;
+            font-size: 1.1rem;
+        }
+
+        .footer {
+            background: var(--primary);
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+
+        .footer-text {
+            color: var(--text-light);
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--primarybtn);
+            transition: all 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--text-light);
+            transform: translateY(-2px);
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -5;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 40px;
+            height: 40px;
+            top: 80%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+</style>
+<body>
+    <div class="landing-container">
+        <div class="floating-elements">
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+        </div>
+
+        <section class="hero-section">
+            <img src="imgs/logo.png" alt="Chat Together" class="hero-logo">
+            <h1 class="hero-title">Chat Together</h1>
+            <p class="hero-subtitle">
+                Entdecke eine moderne Chat-Plattform für anonyme Kommunikation. 
+                Verbinde dich mit Menschen weltweit in Echtzeit.
+            </p>
+            <div class="cta-buttons">
+                <a href="entry.html" class="cta-primary">
+                    <i class="fas fa-rocket"></i> Jetzt Chatten
+                </a>
+                <a href="#features" class="cta-secondary">
+                    <i class="fas fa-info-circle"></i> Mehr erfahren
+                </a>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="features-section">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Anonym & Sicher</h3>
+                    <p class="feature-description">
+                        Chatte anonym ohne persönliche Daten preiszugeben. 
+                        Deine Privatsphäre steht an erster Stelle.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3 class="feature-title">Globale Communities</h3>
+                    <p class="feature-description">
+                        Tritt verschiedenen Gruppen bei - von Global bis zu 
+                        sprachspezifischen Communities.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature-title">Echtzeit-Chat</h3>
+                    <p class="feature-description">
+                        Nachrichten werden in Echtzeit übertragen. 
+                        Keine Verzögerungen, nur flüssige Kommunikation.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="feature-title">Moderation</h3>
+                    <p class="feature-description">
+                        Professionelle Moderation für ein sicheres und 
+                        angenehmes Chat-Erlebnis.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Responsive Design</h3>
+                    <p class="feature-description">
+                        Perfekt optimiert für alle Geräte - vom Smartphone 
+                        bis zum Desktop.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <h3 class="feature-title">Kostenlos</h3>
+                    <p class="feature-description">
+                        Komplett kostenlos und ohne versteckte Kosten. 
+                        Einfach registrieren und loslegen!
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live Stats Section -->
+        <section class="stats-section">
+            <div class="live-stats">
+                <div class="update-indicator" id="update-indicator">
+                    <span class="pulse"></span>Live
+                </div>
+                <h3><i class="fas fa-chart-line"></i> Live Statistiken</h3>
+                <div class="live-stats-grid">
+                    <div class="live-stat-item">
+                        <div class="live-stat-number" id="online-users">0</div>
+                        <div class="live-stat-label">
+                            <span class="online-indicator"></span>Online User
+                        </div>
+                    </div>
+                    <div class="live-stat-item">
+                        <div class="live-stat-number" id="daily-messages">0</div>
+                        <div class="live-stat-label">
+                            <i class="fas fa-comment-alt"></i> Nachrichten heute
+                        </div>
+                    </div>
+                    <div class="live-stat-item">
+                        <div class="live-stat-number" id="active-rooms">3</div>
+                        <div class="live-stat-label">
+                            <i class="fas fa-hashtag"></i> Aktive Gruppen
+                        </div>
+                    </div>
+                    <div class="live-stat-item">
+                        <div class="live-stat-number" id="uptime">99.9%</div>
+                        <div class="live-stat-label">
+                            <i class="fas fa-server"></i> Server Uptime
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Online Users Section -->
+        <section class="online-users-section">
+            <div class="online-users-container">
+                <h2 class="online-users-title">
+                    <i class="fas fa-users"></i> Aktuelle Online User
+                </h2>
+                <div class="room-users-grid" id="room-users-grid">
+                </div>
+            </div>
+        </section>
+
+        <!-- Details Section -->
+        <section class="details-section">
+            <div class="details-container">
+                <h2 style="text-align: center; color: var(--primarybtn); font-size: 2.5rem; margin-bottom: 20px;">
+                    <i class="fas fa-info-circle"></i> Mehr Details
+                </h2>
+                <div class="details-grid">
+                    <div class="detail-card">
+                        <h4><i class="fas fa-cogs"></i> Technische Features</h4>
+                        <ul>
+                            <li>Socket.IO Echtzeit-Kommunikation</li>
+                            <li>Responsive Web Design</li>
+                            <li>Progressive Web App (PWA)</li>
+                            <li>Cross-Browser Kompatibilität</li>
+                            <li>SSL/TLS Verschlüsselung</li>
+                            <li>Automatische Reconnect-Funktion</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="detail-card">
+                        <h4><i class="fas fa-hashtag"></i> Verfügbare Gruppen</h4>
+                        <div class="room-list">
+                            <div class="room-item">
+                                <div class="room-name"># Global</div>
+                                <div class="room-description">Weltweite Diskussionen in verschiedenen Sprachen</div>
+                            </div>
+                            <div class="room-item">
+                                <div class="room-name"># Deutsch</div>
+                                <div class="room-description">Deutschsprachige Community für lokale Gespräche</div>
+                            </div>
+                            <div class="room-item">
+                                <div class="room-name"># English</div>
+                                <div class="room-description">Internationale Gespräche auf Englisch</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-card">
+                        <h4><i class="fas fa-shield-alt"></i> Sicherheit & Datenschutz</h4>
+                        <ul>
+                            <li>Anonyme Registrierung möglich</li>
+                            <li>Keine persönlichen Daten erforderlich</li>
+                            <li>Moderations-System für Sicherheit</li>
+                            <li>Automatische Spam-Erkennung</li>
+                            <li>Verschlüsselte Datenübertragung</li>
+                            <li>DSGVO-konform</li>
+                        </ul>
+                    </div>
+
+                    <div class="detail-card">
+                        <h4><i class="fas fa-mobile-alt"></i> Mobile Features</h4>
+                        <ul>
+                            <li>Touch-optimierte Benutzeroberfläche</li>
+                            <li>Push-Benachrichtigungen</li>
+                            <li>Offline-Unterstützung</li>
+                            <li>Bildschirm-Rotation</li>
+                            <li>Virtuelle Tastatur Optimierung</li>
+                            <li>Battery-Life Optimierung</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <img src="imgs/logo.png" alt="Chat Together" class="footer-logo">
+                <p class="footer-text">
+                    Chat Together - Eine moderne Chat-Plattform für anonyme Kommunikation
+                </p>
+                <div class="footer-links">
+                    <a href="updates.html" class="footer-link">
+                        <i class="fas fa-history"></i> Changelog
+                    </a>
+                </div>
+                <p class="chat-version">v1.1.6 Release &copy; <a href="https://fynnsummers.de/">Fynn Summers</a></p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/landing.js"></script>
+</body>
+</html>

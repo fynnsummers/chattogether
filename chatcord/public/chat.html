@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+      integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+      crossorigin="anonymous"
+    />
+    <meta name="author" content="Fynn Summers">
+    <meta name="description" content="Chatte Anonym immer da. | Jetzt mit Chat Together!">
+    <link rel="icon" href="imgs/favicon.ico">
+    <link rel="apple-touch-icon" href="imgs/favicon.ico">
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Chat Together</title>
+  </head>
+  <style>
+    body {
+      overflow-y: hidden;
+    }
+  </style>
+  <body>
+<div id="popup-overlay" class="popup-overlay">
+  <div class="popup-box">
+    <p>Bist du sicher das du diese Gruppe verlassen willst?</p>
+    <button id="confirm-btn">Ja</button>
+    <button id="cancel-btn">Nein</button>
+  </div>
+</div>
+    <div class="chat-container">
+      <header class="chat-header">
+        <img src="imgs/logo-chat.png" alt="chat-together">
+        <div class="header-buttons">
+          <button id="modpanel-btn" class="btn btn-panel" style="display:none;"><i class="fas fa-tools"></i></button>
+          <a id="profile-btn" class="btn btn-profile" title="Profil bearbeiten">
+            <i class="fas fa-user-edit"></i>
+          </a>
+          <a id="leave-btn" class="btn" title="Gruppe verlassen">
+            <i class="fa fa-times" aria-hidden="true"></i>
+          </a>
+        </div>
+      </header>
+      <main class="chat-main">
+        <div id="overlay"></div>
+        <div class="chat-sidebar">
+          <h3><i class="fas fa-comments"></i> Gruppe</h3>
+          <h1 id="room-name"></h1>
+          <h3><i class="fas fa-users"></i> Aktiv</h3>
+          <ul id="users"></ul>
+          <div class="chat-stats-container">
+          <h3 class="chat-stats-h"><i class="fas fa-chart-bar"></i> Statistik</h3>
+          <div id="chat-stats" class="chat-stats">
+            <p><i class="fas fa-clock"></i> Zeit aktiv: <span id="active-time">00:00</span></p>
+            <p><i class="fas fa-comment-alt"></i> Nachrichten: <span id="total-messages">0</span></p>
+            <p><i class="fas fa-user-friends"></i> Nutzer online: <span id="online-users">0</span></p>
+          </div>
+          </div>
+        </div>
+        <div class="chat-messages"></div>
+      </main>
+      <div class="chat-form-container">
+        <form id="chat-form">
+          <input
+            id="msg"
+            type="text"
+            placeholder="Nachricht..."
+            required
+            autocomplete="off"
+          />
+            <button type="button" id="reply-cancel" class="btn btn-chat" title="Antwort abbrechen" style="display:none;"><i class="fas fa-times"></i></button>
+            <button type="button" id="emoji-btn" class="btn btn-chat"><i class="fas fa-smile"></i></button>
+          <button class="btn btn-chat"><i class="fas fa-paper-plane"></i></button>
+        </form>
+        <div id="reply-bar" class="reply-bar" style="display:none;">
+          <span class="reply-label"><i class="fas fa-reply"></i> Antwort auf:</span>
+          <span id="reply-preview" class="reply-preview"></span>
+        </div>
+        <div id="emoji-picker" style="display: none;"></div>
+      </div>
+    </div>
+    <!-- Profile preview sidebar (populated by js/showProfilePreview) -->
+  <aside id="profile-preview-sidebar" class="profile-preview-sidebar">
+      <div class="profile-preview-header">
+        <button id="close-profile-preview" class="btn-close-profile" title="Schließen">&times;</button>
+      </div>
+      <div class="profile-preview-content">
+        <div class="profile-avatar-container">
+          <img id="preview-avatar" class="profile-preview-avatar" src="imgs/logo.png" alt="avatar" />
+        </div>
+        <div class="profile-info">
+          <h2 id="preview-display-name" class="preview-display-name">Benutzer</h2>
+          <p id="preview-username" class="preview-username">@username</p>
+          <div id="preview-role" class="preview-role"></div>
+        </div>
+
+        <div id="profile-details" class="profile-details">
+          <div id="preview-bio-container" class="profile-detail-item" style="display:none;">
+            <i class="fas fa-quote-left"></i>
+            <p id="preview-bio"></p>
+          </div>
+          <div id="preview-location-container" class="profile-detail-item" style="display:none;">
+            <i class="fas fa-map-marker-alt"></i>
+            <span id="preview-location"></span>
+          </div>
+          <div id="preview-website-container" class="profile-detail-item" style="display:none;">
+            <i class="fas fa-globe"></i>
+            <a id="preview-website" class="preview-website" href="#" target="_blank" rel="noopener noreferrer"></a>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div id="modpanel-overlay" class="popup-overlay" style="display:none;z-index:10000;">
+      <div class="popup-box" style="max-width:600px;width:96vw;">
+        <div id="modpanel-content">
+        </div>
+        <button id="close-modpanel" class="btn"><i class="fa fa-times" aria-hidden="true"></i></button>
+      </div>
+    </div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js"
+      integrity="sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4="
+      crossorigin="anonymous"
+    ></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <audio id="new-message-sound" src="sounds/message.mp3"></audio>
+    <audio id="new-user-sound" src="sounds/new-user.mp3"></audio>
+    <audio id="self-message-sound" src="sounds/self-message.mp3"></audio>
+    <script src="js/main.js"></script>
+  </body>
+</html>

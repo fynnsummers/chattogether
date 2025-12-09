@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+			integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+			crossorigin="anonymous"
+		/>
+		<meta name="author" content="Fynn Summers">
+    <meta name="description" content="Chatte Anonym immer da. | Jetzt mit Chat Together!">
+    <link rel="icon" href="imgs/favicon.ico">
+    <link rel="apple-touch-icon" href="imgs/favicon.ico">
+	<link rel="stylesheet" href="css/style.css" />
+	<title>Chat Together | Login</title>
+	</head>
+	<body>
+		<div class="join-container">
+			<header class="join-header">
+				<img src="imgs/logo.png" alt="chat-together" width="100%">
+			</header>
+			<main class="join-main">
+				<div class="tab-container">
+					<button class="tab-btn active" id="login-tab"><i class="fa fa-sign-in-alt"></i> Anmelden</button>
+					<button class="tab-btn" id="register-tab"><i class="fa fa-user-plus"></i> Registrieren</button>
+				</div>
+				<form id="login-form" class="tab-content">
+					<div class="form-control">
+						<label for="login-username"><i style="padding: 10px;" class="fa fa-user" aria-hidden="true"></i> Benutzername</label>
+						<input type="text" name="username" id="login-username" class="input-text" placeholder="Benutzername..." required />
+					</div>
+					<div class="form-control">
+						<label for="login-password"><i style="padding: 10px;" class="fa fa-lock" aria-hidden="true"></i> Passwort</label>
+						<input type="password" name="password" id="login-password" class="input-text" placeholder="Passwort..." required />
+					</div>
+					<div class="form-control">
+						<label for="login-room"><i style="padding: 10px;" class="fa fa-hashtag" aria-hidden="true"></i> Gruppe</label>
+						<select name="room" id="login-room" class="input-text">
+							<option value="Global">Global</option>
+							<option value="Deutsch">Deutsch</option>
+							<option value="English">English</option>
+						</select>
+					</div>  
+					<div id="login-error" class="error-message" style="display:none;"></div>
+					<button type="submit" class="btn"><i class="fa fa-sign-in-alt"></i> Anmelden</button>
+				</form>
+				<form id="register-form" class="tab-content" style="display:none;">
+					<div class="form-control">
+						<label for="register-username"><i style="padding: 10px;" class="fa fa-user" aria-hidden="true"></i> Benutzername</label>
+						<input type="text" name="username" id="register-username" class="input-text" placeholder="Benutzername..." required />
+					</div>
+					<div class="form-control">
+						<label for="register-password"><i style="padding: 10px;" class="fa fa-lock" aria-hidden="true"></i> Passwort</label>
+						<input type="password" name="password" id="register-password" class="input-text" placeholder="Passwort..." required />
+					</div>
+					<div class="form-control">
+						<label for="register-displayname"><i style="padding: 10px;" class="fa fa-id-card" aria-hidden="true"></i> Anzeigename (optional)</label>
+						<input type="text" name="displayName" id="register-displayname" class="input-text" placeholder="Dein Anzeigename..." />
+					</div>
+					<div id="register-error" class="error-message" style="display:none;"></div>
+					<div id="register-success" class="success-message" style="display:none;"></div>
+					<button type="submit" class="btn"><i class="fa fa-user-plus"></i> Registrieren</button>
+				</form>
+			</main>
+		</div>
+		<script src="js/auth.js"></script>
+	</body>
+</html>

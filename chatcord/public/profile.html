@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    <meta name="author" content="Fynn Summers">
+    <meta name="description" content="Profil bearbeiten - Chat Together">
+    <link rel="icon" href="imgs/favicon.ico">
+    <link rel="apple-touch-icon" href="imgs/favicon.ico">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Profil bearbeiten | Chat Together</title>
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            overflow-y: scroll;
+        }
+        .profile-container {
+    width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #171e31;
+    border-radius: 25px;
+    border: 2px solid var(--glass-border);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.profile-header img {
+    width: 180px;
+    margin-bottom: -25px;
+}
+
+.profile-avatar {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.avatar-preview {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--secondarybtn);
+    margin: 0 auto 15px;
+    display: block;
+    background: #f8f9fa;
+}
+
+.avatar-upload {
+    display: none;
+}
+
+.avatar-label {
+    background: #282d5f;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 35px;
+    cursor: pointer;
+    display: inline-block;
+    transition: background 0.3s;
+}
+
+.avatar-label:hover {
+    background: #5059b8;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    font-family: "Poppins";
+    background-color: var(--glass-bg);
+    border: 3px dashed var(--glass-border);
+    border-radius: 25px;
+    font-size: 16px;
+    color: #ffffff;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: #88a3c0;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.btn-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.btn-save {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.btn-save:hover {
+    background: #218838;
+}
+
+.btn-back {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.3s;
+}
+
+.btn-back:hover {
+    background: #545b62;
+}
+
+.status-message {
+    padding: 10px;
+    border-radius: 5px;
+    margin: 15px 0;
+    text-align: center;
+    display: none;
+}
+
+.status-success {
+    background: var(--glass-bg);
+    color: #7bff91;
+    border: 1px solid var(--glass-border);
+}
+
+.status-error {
+    background: var(--glass-bg);
+    color: #ff7f7f;
+    border: 1px solid var(--glass-border);
+}
+
+.beta {
+    font-size: 12px;
+    color: #ff5757;
+    font-weight: 600;
+}
+
+/* -------------------------------------------- */
+/* Zweispaltige, responsive Inputs im Formular */
+#profile-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* zwei Spalten */
+    gap: 20px; /* Abstand zwischen Feldern */
+}
+
+/* Textareas nehmen volle Breite */
+#profile-form textarea {
+    grid-column: span 2;
+}
+
+/* Buttons nehmen volle Breite */
+#profile-form .btn-group {
+    grid-column: span 2;
+}
+
+
+/* Responsive: auf kleinen Bildschirmen alles untereinander */
+@media (max-width: 768px) {
+    #profile-form {
+        display: block;
+        width: 300px;
+    }
+
+    .profile-container {
+        width: auto;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            <h1><i class="fas fa-user-edit"></i> Account</h1>
+        </div>
+        
+        <div id="status-message" class="status-message"></div>
+        
+        <form id="profile-form">
+            <div class="profile-avatar">
+                <img id="avatar-preview" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+CjxjaXJjbGUgY3g9IjYwIiBjeT0iNDAiIHI9IjIwIiBmaWxsPSIjQ0NDIi8+CjxwYXRoIGQ9Ik0yMCAxMDBDMjAgNzguOTQwNCAzNi45NDA0IDYyIDU4IDYySDYyQzgzLjA1OTYgNjIgMTAwIDc4Ljk0MDQgMTAwIDEwMFYxMjBIMjBWMTIwWiIgZmlsbD0iI0NDQyIvPgo8L3N2Zz4K" alt="Profilbild" class="avatar-preview">
+                <input type="file" id="avatar-upload" class="avatar-upload" accept="image/*">
+                <label for="avatar-upload" class="avatar-label">
+                    <i class="fas fa-camera"></i>
+                </label>
+            </div>
+            
+            <div class="form-group">
+                <label for="display-name">
+                    <i class="fas fa-user"></i> Anzeigename
+                </label>
+                <input type="text" id="display-name" name="displayName" placeholder="Dein Anzeigename">
+            </div>
+            
+            <div class="form-group">
+                <label for="bio">
+                    <i class="fas fa-info-circle"></i> Über mich
+                </label>
+                <textarea id="bio" name="bio" placeholder="Erzähle etwas über dich..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="location">
+                    <i class="fas fa-map-marker-alt"></i> Standort
+                </label>
+                <input type="text" id="location" name="location" placeholder="Dein Standort">
+            </div>
+            <div class="form-group">
+                <label for="website">
+                    <i class="fas fa-globe"></i> Website
+                </label>
+                <input type="url" id="website" name="website" placeholder="https://deine-website.de">
+            </div>
+            
+            <div class="btn-group">
+                <button type="submit" class="btn-save">
+                    <i class="fas fa-save"></i>
+                </button>
+                <a href="chat.html" class="btn-back" id="back-to-chat">
+                    <i class="fas fa-arrow-left"></i> Zurück
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const username = urlParams.get('username');
+        const room = urlParams.get('room') || 'general'; // Default room if not specified
+        
+        // Update back button to include room parameter
+        document.getElementById('back-to-chat').href = `chat.html?username=${encodeURIComponent(username)}&room=${encodeURIComponent(room)}`;
+        
+        // Avatar Preview
+        const avatarUpload = document.getElementById('avatar-upload');
+        const avatarPreview = document.getElementById('avatar-preview');
+        
+        avatarUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    avatarPreview.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Form Submit
+        const profileForm = document.getElementById('profile-form');
+        const statusMessage = document.getElementById('status-message');
+        
+        profileForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            formData.append('username', username);
+            formData.append('displayName', document.getElementById('display-name').value);
+            formData.append('bio', document.getElementById('bio').value);
+            formData.append('location', document.getElementById('location').value);
+            formData.append('website', document.getElementById('website').value);
+            
+            const avatarFile = avatarUpload.files[0];
+            if (avatarFile) {
+                formData.append('avatar', avatarFile);
+            }
+            
+            try {
+                const response = await fetch('/api/profile/update', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showStatus('Profil erfolgreich gespeichert!', 'success');
+                } else {
+                    showStatus('Fehler beim Speichern: ' + result.message, 'error');
+                }
+            } catch (error) {
+                showStatus('Fehler beim Speichern des Profils', 'error');
+            }
+        });
+        
+        function showStatus(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message status-${type}`;
+            statusMessage.style.display = 'block';
+            
+            setTimeout(() => {
+                statusMessage.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Load existing profile data
+        async function loadProfile() {
+            try {
+                const response = await fetch(`/api/profile/${encodeURIComponent(username)}`);
+                const profile = await response.json();
+                
+                if (profile.success) {
+                    document.getElementById('display-name').value = profile.data.displayName || '';
+                    document.getElementById('bio').value = profile.data.bio || '';
+                    document.getElementById('location').value = profile.data.location || '';
+                    document.getElementById('website').value = profile.data.website || '';
+                    
+                    if (profile.data.avatar) {
+                        avatarPreview.src = `/uploads/avatars/${profile.data.avatar}`;
+                    } else {
+                        // Set default avatar
+                        avatarPreview.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjVGNUY1Ii8+CjxjaXJjbGUgY3g9IjYwIiBjeT0iNDAiIHI9IjIwIiBmaWxsPSIjQ0NDIi8+CjxwYXRoIGQ9Ik0yMCAxMDBDMjAgNzguOTQwNCAzNi45NDA0IDYyIDU4IDYySDYyQzgzLjA1OTYgNjIgMTAwIDc4Ljk0MDQgMTAwIDEwMFYxMjBIMjBWMTIwWiIgZmlsbD0iI0NDQyIvPgo8L3N2Zz4K";
+                    }
+                }
+            } catch (error) {
+                console.log('Fehler beim Laden des Profils:', error);
+            }
+        }
+        
+        // Load profile on page load
+        if (username) {
+            loadProfile();
+        }
+    </script>
+</body>
+</html>
